@@ -25,7 +25,11 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:common"))
+
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+
+    implementation(libs.androidx.compose.material)
 }
