@@ -6,18 +6,19 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ArtistResponse(
     val id: String?,
-    val type: String?,
-    val score: Int?,
+    val type: String? = null,
+    val disambiguation: String? = null,
+    val score: Int? = null,
     val name: String?,
-    val country: String?,
-    val area: AreaResponse?,
+    val country: String? = null,
+    val area: AreaResponse? = null,
     @SerialName("begin-area")
-    val beginArea: AreaResponse?,
+    val beginArea: AreaResponse? = null,
     @SerialName("end-area")
-    val endArea: AreaResponse?,
+    val endArea: AreaResponse? = null,
     @SerialName("life-span")
-    val lifeSpan: LifeSpanResponse?,
-    val tags: List<TagResponse>?
+    val lifeSpan: LifeSpanResponse? = null,
+    val tags: List<TagResponse>? = null
 )
 
 @Serializable
@@ -28,8 +29,9 @@ data class AreaResponse(
 
 @Serializable
 data class LifeSpanResponse(
-    val begin: String?,
-    val end: String?
+    val begin: String? = null,
+    val end: String? = null,
+    val ended: Boolean? = null
 )
 
 @Serializable

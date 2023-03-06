@@ -66,7 +66,7 @@ dependencies {
     implementation(project(":core:designsystem"))
     implementation(project(":core:model"))
     implementation(project(":feature:albums"))
-    implementation(project(":feature:home"))
+    implementation(project(":feature:artists"))
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)

@@ -1,5 +1,6 @@
 package com.nntsl.musicbrainz.core.data.mapper
 
+import com.nntsl.musicbrainz.core.data.mapper.ArtistsMapper.toExternalModel
 import com.nntsl.musicbrainz.core.domain.model.Album
 import com.nntsl.musicbrainz.core.domain.model.Artist
 import com.nntsl.musicbrainz.core.network.model.AlbumResponse
@@ -14,19 +15,22 @@ object ArtistsMapper {
     }
 
     private fun ArtistResponse.toExternalModel(): Artist {
-        return Artist(
-            id = this.id ?: "",
-            type = this.type,
-            score = this.score,
-            name = this.name,
-            country = this.country,
-            area = this.area?.name,
-            beginArea = this.beginArea?.name,
-            endArea = this.endArea?.name,
-            beginDate = this.lifeSpan?.begin,
-            endDate = this.lifeSpan?.end,
-            tags = this.tags?.map { it.name }
-        )
+        return with(this) {
+            Artist(
+                id = id ?: "",
+                type = type,
+                disambiguation = disambiguation,
+                score = score,
+                name = name,
+                country = country,
+                area = area?.name,
+                beginArea = beginArea?.name,
+                endArea = endArea?.name,
+                beginDate = lifeSpan?.begin,
+                endDate = lifeSpan?.end,
+                tags = tags?.mapNotNull { it.name }
+            )
+        }
     }
 }
 
@@ -37,17 +41,19 @@ object AlbumsMapper {
     }
 
     private fun AlbumResponse.toExternalModel(): Album {
-        return Album(
-            id = this.id ?: "",
-            barcode = this.barcode,
-            country = this.country,
-            date = this.date,
-            score = this.score,
-            title = this.title,
-            disambiguation = this.disambiguation,
-            status = this.status,
-            packaging = this.packaging,
-            trackCount = this.trackCount
-        )
+        return with(this) {
+            Album(
+                id = id ?: "",
+                barcode = barcode,
+                country = country,
+                date = date,
+                score = score,
+                title = title,
+                disambiguation = disambiguation,
+                status = status,
+                packaging = packaging,
+                trackCount = trackCount
+            )
+        }
     }
 }

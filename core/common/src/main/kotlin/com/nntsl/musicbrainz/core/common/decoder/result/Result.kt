@@ -8,12 +8,12 @@ sealed interface Result<out T> {
     object Loading : Result<Nothing>
 }
 
-fun <T> Flow<T>.asResult(resume: Boolean = false): Flow<Result<T>> {
+fun <T> Flow<T>.asResult(): Flow<Result<T>> {
     return this
         .map<T, Result<T>> {
             Result.Success(it)
         }
-        .onStart { if (!resume) emit(Result.Loading) }
+        .onStart { emit(Result.Loading) }
         .catch {
             emit(Result.Error(it))
         }
