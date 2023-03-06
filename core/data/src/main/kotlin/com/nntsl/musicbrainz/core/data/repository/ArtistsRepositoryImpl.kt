@@ -19,7 +19,11 @@ class ArtistsRepositoryImpl @Inject constructor(
 
     override fun getArtists(query: String): Flow<List<Artist>> {
         return flow {
-            emit(network.getArtists(query).toExternalModel())
+            if (query.isEmpty()) {
+                emit(listOf())
+            } else {
+                emit(network.getArtists(query).toExternalModel())
+            }
         }.flowOn(ioDispatcher)
     }
 }

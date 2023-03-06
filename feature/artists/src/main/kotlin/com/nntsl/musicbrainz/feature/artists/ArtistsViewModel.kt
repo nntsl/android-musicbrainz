@@ -44,45 +44,41 @@ private fun artistsUiStateStream(
     getArtistsUseCase: GetArtistsUseCase,
     query: String
 ): Flow<ArtistsUiState> {
-    return if (query.isEmpty()) {
-        flow { emit(ArtistsUiState.Success(listOf())) }
-    } else {
-        return getArtistsUseCase(query)
-            .asResult()
-            .map {
-                when (it) {
-                    is Result.Success -> {
-                        if (it.data.isNotEmpty()) {
-                            ArtistsUiState.Success(
-                                it.data.filter { it.name != null }
-                                    .map { artist ->
-                                        with(artist) {
-                                            ArtistItem(
-                                                id = id,
-                                                type = if (type.equals("group", ignoreCase = true)) {
-                                                    ArtistType.GROUP
-                                                } else {
-                                                    ArtistType.PERSON
-                                                },
-                                                name = name ?: "",
-                                                score = score?.toString() ?: "",
-                                                tags = tags ?: listOf(),
-                                                country = country ?: "",
-                                                disambiguation = disambiguation ?: ""
-                                            )
-                                        }
-                                    })
-                        } else {
-                            ArtistsUiState.NoData
-                        }
-                    }
-                    is Result.Loading -> {
-                        ArtistsUiState.Loading
-                    }
-                    is Result.Error -> {
-                        ArtistsUiState.Error
+    return getArtistsUseCase(query)
+        .asResult()
+        .map {
+            when (it) {
+                is Result.Success -> {
+                    if (it.data.isNotEmpty()) {
+                        ArtistsUiState.Success(
+                            it.data.filter { it.name != null }
+                                .map { artist ->
+                                    with(artist) {
+                                        ArtistItem(
+                                            id = id,
+                                            type = if (type.equals("group", ignoreCase = true)) {
+                                                ArtistType.GROUP
+                                            } else {
+                                                ArtistType.PERSON
+                                            },
+                                            name = name ?: "",
+                                            score = score?.toString() ?: "",
+                                            tags = tags ?: listOf(),
+                                            country = country ?: "",
+                                            disambiguation = disambiguation ?: ""
+                                        )
+                                    }
+                                })
+                    } else {
+                        ArtistsUiState.NoData
                     }
                 }
+                is Result.Loading -> {
+                    ArtistsUiState.Loading
+                }
+                is Result.Error -> {
+                    ArtistsUiState.Error
+                }
             }
-    }
+        }
 }

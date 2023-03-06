@@ -5,8 +5,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.nntsl.musicbrainz.feature.albums.navigation.artistScreen
 import com.nntsl.musicbrainz.feature.albums.navigation.navigateToArtist
-import com.nntsl.musicbrainz.feature.artists.navigation.homeGraph
-import com.nntsl.musicbrainz.feature.artists.navigation.homeRoutePattern
+import com.nntsl.musicbrainz.feature.artists.navigation.artistsGraph
+import com.nntsl.musicbrainz.feature.artists.navigation.artistsRoutePattern
 
 @Composable
 fun MusicbrainzNavHost(
@@ -14,9 +14,9 @@ fun MusicbrainzNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = homeRoutePattern
+        startDestination = artistsRoutePattern
     ) {
-        homeGraph(
+        artistsGraph(
             navigateToArtist = { artist ->
                 navController.navigateToArtist(artist)
             },

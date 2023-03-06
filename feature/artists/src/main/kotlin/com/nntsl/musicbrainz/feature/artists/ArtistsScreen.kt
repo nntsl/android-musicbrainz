@@ -19,6 +19,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -32,7 +33,7 @@ import com.nntsl.musicbrainz.feature.artists.R.string
 import com.nntsl.musicbrainz.feature.artists.model.ArtistItem
 
 @Composable
-fun HomeRoute(
+fun ArtistsRoute(
     modifier: Modifier = Modifier,
     navigateToArtist: (String) -> Unit,
     viewModel: ArtistsViewModel = hiltViewModel()
@@ -40,7 +41,7 @@ fun HomeRoute(
 
     val uiState by viewModel.artistsUiState.collectAsStateWithLifecycle()
 
-    HomeScreen(
+    ArtistsScreen(
         modifier = modifier,
         navigateToArtist = navigateToArtist,
         uiState = uiState,
@@ -50,7 +51,7 @@ fun HomeRoute(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun HomeScreen(
+internal fun ArtistsScreen(
     modifier: Modifier = Modifier,
     navigateToArtist: (String) -> Unit,
     uiState: ArtistsUiState,
@@ -66,7 +67,8 @@ private fun HomeScreen(
                     MusicbrainzLoadingWheel(
                         modifier = modifier
                             .fillMaxWidth()
-                            .align(Alignment.TopCenter),
+                            .align(Alignment.TopCenter)
+                            .testTag("artists:loadingWheel"),
                         contentDesc = stringResource(string.loading)
                     )
                 is ArtistsUiState.Success -> ArtistsList(
@@ -161,6 +163,7 @@ private fun ArtistsList(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .testTag("artists:${artist.id}")
                         .clickable {
                             navigateToArtist(artist.id)
                         }
