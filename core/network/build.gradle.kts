@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
+    id("kotlinx-serialization")
     kotlin("kapt")
 }
 
@@ -11,6 +12,11 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
+
+        buildConfigField("String","VERSION_CODE","\"${properties["VERSION_CODE"] as String}\"")
+        buildConfigField("String","APP_NAME","\"${properties["APP_NAME"] as String}\"")
+        buildConfigField("String","BACKEND_URL","\"${properties["BACKEND_URL"] as String}\"")
+        buildConfigField("String","CONTACT_URL","\"${properties["CONTACT_URL"] as String}\"")
     }
 }
 

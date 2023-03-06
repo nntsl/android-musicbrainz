@@ -3,8 +3,8 @@ package com.nntsl.musicbrainz.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.nntsl.musicbrainz.feature.artist.navigation.artistScreen
-import com.nntsl.musicbrainz.feature.artist.navigation.navigateToArtist
+import com.nntsl.musicbrainz.feature.albums.navigation.artistScreen
+import com.nntsl.musicbrainz.feature.albums.navigation.navigateToArtist
 import com.nntsl.musicbrainz.feature.home.navigation.homeGraph
 import com.nntsl.musicbrainz.feature.home.navigation.homeRoutePattern
 

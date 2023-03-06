@@ -25,9 +25,12 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:common"))
+    implementation(project(":core:domain"))
+
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
-
+    implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.compose.material)
 }

@@ -13,8 +13,8 @@ android {
         applicationId = "com.nntsl.musicbrainz"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.tagetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = (properties["VERSION_CODE"] as String).toInt()
+        versionName = properties["VERSION_NAME"] as String
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -23,6 +23,10 @@ android {
     }
 
     buildTypes {
+        debug {
+            isDebuggable = true
+            applicationIdSuffix = ".debug"
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -60,9 +64,8 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:data"))
     implementation(project(":core:designsystem"))
-    implementation(project(":core:domain"))
     implementation(project(":core:model"))
-    implementation(project(":feature:artist"))
+    implementation(project(":feature:albums"))
     implementation(project(":feature:home"))
 
     implementation(libs.hilt.android)

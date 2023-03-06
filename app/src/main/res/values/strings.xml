@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">musicbrainz</string>
+    <string name="app_name">Musicbrainz</string>
+    <string name="not_connected">⚠️ You aren’t connected to the internet</string>
 </resources>
