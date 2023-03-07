@@ -6,12 +6,13 @@ data class ArtistItem(
     val id: String,
     val type: ArtistType,
     val name: String,
-    val score: String,
+    val score: String?,
     val tags: List<String>,
-    val country: String,
-    val disambiguation: String
+    val country: String?,
+    val disambiguation: String?,
+    val beginDate: String?,
+    val endDate: String?
 )
-
 
 enum class ArtistType(val stringRes: Int) {
     GROUP(string.group),

@@ -16,7 +16,7 @@ class TestArtistsRepository: ArtistsRepository {
     }
 
     /**
-     * A test-only API to allow controlling the list of exchange rates from tests.
+     * A test-only API to allow controlling the list of artists from tests.
      */
     fun sendArtists(artists: List<Artist>) {
         artistsFlow.tryEmit(artists)

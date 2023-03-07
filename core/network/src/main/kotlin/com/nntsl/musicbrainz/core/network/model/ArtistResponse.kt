@@ -9,7 +9,7 @@ data class ArtistResponse(
     val type: String? = null,
     val disambiguation: String? = null,
     val score: Int? = null,
-    val name: String?,
+    val name: String? = null,
     val country: String? = null,
     val area: AreaResponse? = null,
     @SerialName("begin-area")
@@ -23,8 +23,8 @@ data class ArtistResponse(
 
 @Serializable
 data class AreaResponse(
-    val type: String?,
-    val name: String?
+    val type: String? = null,
+    val name: String? = null
 )
 
 @Serializable
@@ -36,5 +36,5 @@ data class LifeSpanResponse(
 
 @Serializable
 data class TagResponse(
-    val name: String?
+    val name: String? = null
 )

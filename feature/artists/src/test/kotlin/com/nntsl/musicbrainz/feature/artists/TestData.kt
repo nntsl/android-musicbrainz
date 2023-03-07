@@ -59,10 +59,12 @@ val testInputArtistsItems = testInputArtists.map { artist ->
                 ArtistType.PERSON
             },
             name = name ?: "",
-            score = score?.toString() ?: "",
+            score = score?.toString(),
             tags = tags ?: listOf(),
-            country = country ?: "",
-            disambiguation = disambiguation ?: ""
+            country = country,
+            disambiguation = disambiguation,
+            beginDate = beginDate,
+            endDate = endDate
         )
     }
 }

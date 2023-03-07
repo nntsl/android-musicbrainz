@@ -1,6 +1,8 @@
 package com.nntsl.musicbrainz.feature.artists
 
+import com.nntsl.musicbrainz.core.domain.usecase.GetAlbumsUseCase
 import com.nntsl.musicbrainz.core.domain.usecase.GetArtistsUseCase
+import com.nntsl.musicbrainz.core.testing.repository.TestAlbumsRepository
 import com.nntsl.musicbrainz.core.testing.repository.TestArtistsRepository
 import com.nntsl.musicbrainz.core.testing.util.MainDispatcherRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,8 +23,14 @@ internal class ArtistsViewModelTest {
 
     private val artistsRepository = TestArtistsRepository()
 
+    private val albumsRepository = TestAlbumsRepository()
+
     private val getArtistsUseCase = GetArtistsUseCase(
         artistsRepository = artistsRepository
+    )
+
+    private val getAlbumsUseCase = GetAlbumsUseCase(
+        albumsRepository = albumsRepository
     )
 
     private lateinit var viewModel: ArtistsViewModel
@@ -30,14 +38,18 @@ internal class ArtistsViewModelTest {
     @Before
     fun setUp() {
         viewModel = ArtistsViewModel(
-            getArtistsUseCase = getArtistsUseCase
+            getArtistsUseCase = getArtistsUseCase,
+            getAlbumsUseCase = getAlbumsUseCase
         )
     }
 
     @Test
-    fun uiState_whenInitialized_thenShowLoading() = runTest {
+    fun uiState_whenInitialized_thenShowSuccessWithoutData() = runTest {
         assertEquals(
-            ArtistsUiState.Loading,
+            ArtistsUiState.Success(
+                isArtistsLoading = false,
+                isAlbumsLoading = false
+            ),
             viewModel.artistsUiState.value
         )
     }
@@ -49,7 +61,11 @@ internal class ArtistsViewModelTest {
         artistsRepository.sendArtists(testInputArtists)
 
         assertEquals(
-            ArtistsUiState.Success(testInputArtistsItems),
+            ArtistsUiState.Success(
+                isArtistsLoading = false,
+                isAlbumsLoading = false,
+                artists = testInputArtistsItems
+            ),
             viewModel.artistsUiState.value
         )
 
@@ -60,11 +76,15 @@ internal class ArtistsViewModelTest {
     fun uiState_whenSearchArtists_thenShowUpdatedArtists() = runTest {
         val collectJob1 = launch(UnconfinedTestDispatcher()) { viewModel.artistsUiState.collect() }
 
-        artistsRepository.sendArtists(testInputArtists.filter { it.name == "test" })
+        val query = "test"
+        viewModel.searchArtists(query)
+        artistsRepository.sendArtists(testInputArtists.filter { it.name == query })
 
         assertEquals(
             ArtistsUiState.Success(
-                artists = testInputArtistsItems.filter { it.name == "test" }
+                isArtistsLoading = false,
+                isAlbumsLoading = false,
+                artists = testInputArtistsItems.filter { it.name == query }
             ),
             viewModel.artistsUiState.value
         )

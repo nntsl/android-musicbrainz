@@ -1,6 +1,5 @@
 package com.nntsl.musicbrainz.core.data.mapper
 
-import com.nntsl.musicbrainz.core.data.mapper.ArtistsMapper.toExternalModel
 import com.nntsl.musicbrainz.core.domain.model.Album
 import com.nntsl.musicbrainz.core.domain.model.Artist
 import com.nntsl.musicbrainz.core.network.model.AlbumResponse

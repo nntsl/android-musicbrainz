@@ -20,6 +20,7 @@ androidxEspresso = "3.5.0"
 androidxTestCore = "1.5.0"
 androidxTestRunner = "1.5.1"
 androidxTestRules = "1.5.0"
+accompanist = "0.28.0"
 hilt = "2.45"
 retrofit = "2.9.0"
 retrofitKotlinxSerializationConverter = "0.8.0"
@@ -32,6 +33,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "androidxComposeMaterial" }
 androidx-compose-material-icons = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "androidxComposeMaterial" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxMaterial3" }
+androidx-compose-material3-windowSizeClass = {group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "androidxMaterial3" }
 androidx-compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "androidxCompose" }
 androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref = "androidxCompose" }
 androidx-compose-ui-util = { group = "androidx.compose.ui", name = "ui-util", version.ref = "androidxCompose" }
@@ -41,6 +43,7 @@ androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 androidx-lifecycle-runtimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
+accompanist-flowlayout = { group = "com.google.accompanist", name = "accompanist-flowlayout", version.ref = "accompanist" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }

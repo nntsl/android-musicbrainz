@@ -34,6 +34,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.accompanist.flowlayout)
 
     testImplementation(project(":core:testing"))
     testImplementation(kotlin("test"))

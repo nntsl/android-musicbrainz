@@ -65,7 +65,6 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:model"))
-    implementation(project(":feature:albums"))
     implementation(project(":feature:artists"))
 
     implementation(libs.hilt.android)
@@ -76,5 +75,6 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material3.windowSizeClass)
     implementation(libs.androidx.appcompat)
 }

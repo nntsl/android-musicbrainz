@@ -19,9 +19,14 @@ class ArtistAlbumsRepositoryImpl @Inject constructor(
 
     override fun getAlbums(query: String): Flow<List<Album>> {
         return flow {
-            network.getArtistAlbum(query)?.toExternalModel()?.let {
-                emit(it)
-            }
+            network.getArtistAlbum(formatAlbumsQuery(query))
+                ?.toExternalModel()?.let {
+                    emit(it)
+                }
         }.flowOn(ioDispatcher)
+    }
+
+    fun formatAlbumsQuery(artistId: String): String {
+        return "arid:$artistId"
     }
 }

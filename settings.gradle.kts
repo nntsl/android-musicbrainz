@@ -15,7 +15,6 @@ dependencyResolutionManagement {
 rootProject.name = "musicbrainz"
 include(":app")
 include(":feature:artists")
-include(":feature:albums")
 include(":core:common")
 include(":core:data")
 include(":core:domain")

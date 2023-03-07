@@ -4,81 +4,131 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nntsl.musicbrainz.core.common.decoder.result.Result
 import com.nntsl.musicbrainz.core.common.decoder.result.asResult
+import com.nntsl.musicbrainz.core.domain.usecase.GetAlbumsUseCase
 import com.nntsl.musicbrainz.core.domain.usecase.GetArtistsUseCase
+import com.nntsl.musicbrainz.feature.artists.model.AlbumItem
 import com.nntsl.musicbrainz.feature.artists.model.ArtistItem
-import com.nntsl.musicbrainz.feature.artists.model.ArtistType
+import com.nntsl.musicbrainz.feature.artists.model.ArtistsMapper.toUiAlbumsModel
+import com.nntsl.musicbrainz.feature.artists.model.ArtistsMapper.toUiArtistsModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ArtistsViewModel @Inject constructor(
-    private val getArtistsUseCase: GetArtistsUseCase
+    private val getArtistsUseCase: GetArtistsUseCase,
+    private val getAlbumsUseCase: GetAlbumsUseCase
 ) : ViewModel() {
 
-    private val currentQuery = MutableStateFlow("")
+    private val viewModelState = MutableStateFlow(ArtistsViewModelState())
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     val artistsUiState: StateFlow<ArtistsUiState> =
-        currentQuery
-            .map {
-                artistsUiStateStream(getArtistsUseCase = getArtistsUseCase, query = it)
-            }
-            .flatMapLatest { it }
+        viewModelState
+            .map(ArtistsViewModelState::toUiState)
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5_000),
-                initialValue = ArtistsUiState.Loading
+                initialValue = viewModelState.value.toUiState()
             )
 
-    fun searchArtist(query: String) {
+    fun getCurrentQuery(): String = viewModelState.value.query
+
+    fun searchArtists(query: String) {
+        viewModelState.update {
+            it.copy(
+                isAlbumsOpened = false,
+                isArtistsLoading = true
+            )
+        }
         viewModelScope.launch {
-            currentQuery.value = query
+            getArtistsUseCase(query).asResult().collect() { result ->
+                when (result) {
+                    is Result.Success -> {
+                        viewModelState.update {
+                            it.copy(
+                                artists = result.data.toUiArtistsModel(),
+                                isArtistsLoading = false,
+                                query = query
+                            )
+                        }
+                    }
+                    is Result.Loading -> {
+                        viewModelState.update {
+                            it.copy(
+                                query = query,
+                                isArtistsLoading = true
+                            )
+                        }
+                    }
+                    is Result.Error -> {
+                        viewModelState.update {
+                            it.copy(
+                                artists = listOf(),
+                                isArtistsLoading = false,
+                                query = query,
+                                selectedArtist = null,
+                                isAlbumsOpened = false
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun interactedWithAlbums() {
+        viewModelState.update {
+            it.copy(isAlbumsOpened = false)
+        }
+    }
+
+    fun interactedWithArtists(artist: ArtistItem) {
+        viewModelState.update {
+            it.copy(
+                isAlbumsOpened = true,
+                isAlbumsLoading = true,
+                selectedArtist = artist
+            )
+        }
+
+        viewModelScope.launch {
+            getAlbumsUseCase(artist.id).collect() { albums ->
+                viewModelState.update {
+                    it.copy(
+                        albums = albums.toUiAlbumsModel(),
+                        isAlbumsLoading = false
+                    )
+                }
+            }
         }
     }
 }
 
-private fun artistsUiStateStream(
-    getArtistsUseCase: GetArtistsUseCase,
-    query: String
-): Flow<ArtistsUiState> {
-    return getArtistsUseCase(query)
-        .asResult()
-        .map {
-            when (it) {
-                is Result.Success -> {
-                    if (it.data.isNotEmpty()) {
-                        ArtistsUiState.Success(
-                            it.data.filter { it.name != null }
-                                .map { artist ->
-                                    with(artist) {
-                                        ArtistItem(
-                                            id = id,
-                                            type = if (type.equals("group", ignoreCase = true)) {
-                                                ArtistType.GROUP
-                                            } else {
-                                                ArtistType.PERSON
-                                            },
-                                            name = name ?: "",
-                                            score = score?.toString() ?: "",
-                                            tags = tags ?: listOf(),
-                                            country = country ?: "",
-                                            disambiguation = disambiguation ?: ""
-                                        )
-                                    }
-                                })
-                    } else {
-                        ArtistsUiState.NoData
-                    }
-                }
-                is Result.Loading -> {
-                    ArtistsUiState.Loading
-                }
-                is Result.Error -> {
-                    ArtistsUiState.Error
-                }
-            }
+private data class ArtistsViewModelState(
+    val isArtistsLoading: Boolean = false,
+    val isAlbumsLoading: Boolean = false,
+    val artists: List<ArtistItem> = listOf(),
+    val selectedArtist: ArtistItem? = null,
+    val isAlbumsOpened: Boolean = false,
+    val query: String = "",
+    val albums: List<AlbumItem> = listOf()
+) {
+    fun toUiState(): ArtistsUiState {
+        return if (artists.isNotEmpty() || query.isEmpty()) {
+            ArtistsUiState.Success(
+                isArtistsLoading = isArtistsLoading,
+                isAlbumsLoading = isAlbumsLoading,
+                artists = artists,
+                isAlbumsOpened = isAlbumsOpened,
+                albums = albums,
+                selectedArtist = selectedArtist
+            )
+        } else {
+            ArtistsUiState.NoData(
+                isArtistsLoading = isArtistsLoading,
+                isAlbumsLoading = isAlbumsLoading
+            )
         }
+    }
 }

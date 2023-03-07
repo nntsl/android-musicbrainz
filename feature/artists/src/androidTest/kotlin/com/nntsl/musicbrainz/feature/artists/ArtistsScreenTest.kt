@@ -63,7 +63,7 @@ class ArtistsScreenTest {
 
     @Composable
     private fun ArtistsScreen(uiState: ArtistsUiState) {
-        ArtistsScreen(
+        com.nntsl.musicbrainz.feature.artists.screen.ArtistsScreen(
             uiState = uiState,
             navigateToArtist = {},
             searchArtist = {}

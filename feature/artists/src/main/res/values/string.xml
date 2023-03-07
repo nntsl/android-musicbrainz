@@ -5,4 +5,17 @@
     <string name="empty_header">No available data</string>
     <string name="group">Group</string>
     <string name="person">Person</string>
+    <string name="back">Back</string>
+    <string name="albums">Albums</string>
+    <string name="type">Type</string>
+    <string name="country">Country</string>
+    <string name="score">Score</string>
+    <string name="begin_date">Begin date</string>
+    <string name="end_date">End date</string>
+    <string name="status">Status</string>
+    <string name="tracks">Tracks</string>
+    <string name="packaging">Packaging</string>
+    <string name="barcode">Barcode</string>
+    <string name="date">Date</string>
+    <string name="not_applicable">N/A</string>
 </resources>

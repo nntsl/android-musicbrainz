@@ -6,14 +6,14 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AlbumResponse(
     val id: String?,
-    val score: Int?,
-    val title: String?,
-    val status: String?,
-    val disambiguation: String?,
-    val packaging: String?,
-    val date: String?,
-    val country: String?,
-    val barcode: String?,
+    val score: Int? = null,
+    val title: String? = null,
+    val status: String? = null,
+    val disambiguation: String? = null,
+    val packaging: String? = null,
+    val date: String? = null,
+    val country: String? = null,
+    val barcode: String? = null,
     @SerialName("track-count")
-    val trackCount: Int?
+    val trackCount: Int? = null
 )

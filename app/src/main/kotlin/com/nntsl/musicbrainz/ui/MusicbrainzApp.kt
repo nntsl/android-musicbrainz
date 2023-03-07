@@ -5,6 +5,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -20,9 +21,11 @@ import com.nntsl.musicbrainz.R.string
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MusicbrainzApp(
+    windowSizeClass: WindowSizeClass,
     networkMonitor: NetworkMonitor,
     appState: MusicbrainzAppState = rememberMusicbrainzAppState(
         networkMonitor = networkMonitor,
+        windowSizeClass = windowSizeClass,
     )
 ) {
     Scaffold(
@@ -49,7 +52,8 @@ fun MusicbrainzApp(
             val navController = rememberNavController()
 
             MusicbrainzNavHost(
-                navController = navController
+                navController = navController,
+                isExpandedScreen = !appState.isCompactScreen
             )
         }
     }

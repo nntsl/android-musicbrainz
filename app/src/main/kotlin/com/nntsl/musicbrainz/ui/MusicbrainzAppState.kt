@@ -1,5 +1,8 @@
 package com.nntsl.musicbrainz.ui
 
+import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -12,16 +15,18 @@ import kotlinx.coroutines.flow.stateIn
 @Composable
 fun rememberMusicbrainzAppState(
     networkMonitor: NetworkMonitor,
-    coroutineScope: CoroutineScope = rememberCoroutineScope()
+    coroutineScope: CoroutineScope = rememberCoroutineScope(),
+    windowSizeClass: WindowSizeClass
 ): MusicbrainzAppState {
-    return remember(coroutineScope, networkMonitor) {
-        MusicbrainzAppState(coroutineScope, networkMonitor)
+    return remember(coroutineScope, networkMonitor, windowSizeClass) {
+        MusicbrainzAppState(coroutineScope, networkMonitor, windowSizeClass)
     }
 }
 
 class MusicbrainzAppState(
     coroutineScope: CoroutineScope,
-    networkMonitor: NetworkMonitor
+    networkMonitor: NetworkMonitor,
+    private val windowSizeClass: WindowSizeClass
 ) {
 
     val isOffline = networkMonitor.isOnline
@@ -31,4 +36,8 @@ class MusicbrainzAppState(
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = false
         )
+
+    val isCompactScreen: Boolean
+        get() = windowSizeClass.widthSizeClass == WindowWidthSizeClass.Compact ||
+                windowSizeClass.heightSizeClass == WindowHeightSizeClass.Compact
 }
