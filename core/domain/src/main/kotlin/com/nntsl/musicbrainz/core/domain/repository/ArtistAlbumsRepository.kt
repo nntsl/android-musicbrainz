@@ -6,4 +6,8 @@ import kotlinx.coroutines.flow.Flow
 interface ArtistAlbumsRepository {
 
     fun getAlbums(query: String): Flow<List<Album>>
+
+    fun formatAlbumsQuery(artistId: String): String {
+        return "arid:$artistId"
+    }
 }

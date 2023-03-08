@@ -6,6 +6,10 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.navigation.NavDestination
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.nntsl.musicbrainz.core.data.util.NetworkMonitor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,18 +20,23 @@ import kotlinx.coroutines.flow.stateIn
 fun rememberMusicbrainzAppState(
     networkMonitor: NetworkMonitor,
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
-    windowSizeClass: WindowSizeClass
+    windowSizeClass: WindowSizeClass,
+    navController: NavHostController = rememberNavController()
 ): MusicbrainzAppState {
-    return remember(coroutineScope, networkMonitor, windowSizeClass) {
-        MusicbrainzAppState(coroutineScope, networkMonitor, windowSizeClass)
+    return remember(coroutineScope, networkMonitor, windowSizeClass, navController) {
+        MusicbrainzAppState(coroutineScope, networkMonitor, windowSizeClass, navController)
     }
 }
 
 class MusicbrainzAppState(
     coroutineScope: CoroutineScope,
     networkMonitor: NetworkMonitor,
-    private val windowSizeClass: WindowSizeClass
+    private val windowSizeClass: WindowSizeClass,
+    val navController: NavHostController
 ) {
+    val currentDestination: NavDestination?
+        @Composable get() = navController
+            .currentBackStackEntryAsState().value?.destination
 
     val isOffline = networkMonitor.isOnline
         .map(Boolean::not)

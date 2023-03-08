@@ -18,6 +18,12 @@ android {
         buildConfigField("String","BACKEND_URL","\"${properties["BACKEND_URL"] as String}\"")
         buildConfigField("String","CONTACT_URL","\"${properties["CONTACT_URL"] as String}\"")
     }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -31,4 +37,7 @@ dependencies {
     implementation(libs.okhttp.logging)
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.kotlin.serialization)
+
+    testImplementation(project(":core:testing"))
+    testImplementation(kotlin("test"))
 }

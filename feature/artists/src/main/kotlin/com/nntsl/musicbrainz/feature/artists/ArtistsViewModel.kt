@@ -38,7 +38,8 @@ class ArtistsViewModel @Inject constructor(
         viewModelState.update {
             it.copy(
                 isAlbumsOpened = false,
-                isArtistsLoading = true
+                isArtistsLoading = true,
+                albums = listOf()
             )
         }
         viewModelScope.launch {
@@ -79,7 +80,7 @@ class ArtistsViewModel @Inject constructor(
 
     fun interactedWithAlbums() {
         viewModelState.update {
-            it.copy(isAlbumsOpened = false)
+            it.copy(isAlbumsOpened = false, albums = listOf())
         }
     }
 

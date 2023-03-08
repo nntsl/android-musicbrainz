@@ -45,7 +45,7 @@ jobs:
           gradlePath: app/build.gradle.kts
           versionCode: ${{ github.run_number }}
 
-      - name: Run tests
+      - name: Run Unit tests
         run: ./gradlew test
 
       - name: Upload Reports

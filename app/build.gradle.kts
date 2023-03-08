@@ -63,9 +63,11 @@ android {
 dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:data"))
+    implementation(project(":core:network"))
     implementation(project(":core:designsystem"))
-    implementation(project(":core:model"))
     implementation(project(":feature:artists"))
+    androidTestImplementation(project(":core:testing"))
+    androidTestImplementation(project(":core:data-test"))
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
@@ -77,4 +79,10 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.material3.windowSizeClass)
     implementation(libs.androidx.appcompat)
+
+    androidTestImplementation(project(":core:testing"))
+    androidTestImplementation(kotlin("test"))
+    androidTestImplementation(libs.androidx.navigation.testing)
+    debugImplementation(libs.androidx.compose.ui.testManifest)
+    debugImplementation(project(":ui-test-hilt"))
 }

@@ -23,7 +23,6 @@ data class ArtistResponse(
 
 @Serializable
 data class AreaResponse(
-    val type: String? = null,
     val name: String? = null
 )
 

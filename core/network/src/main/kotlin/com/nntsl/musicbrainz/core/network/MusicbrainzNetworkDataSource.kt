@@ -7,5 +7,5 @@ interface MusicbrainzNetworkDataSource {
 
     suspend fun getArtists(query: String): AllArtistsResponse?
 
-    suspend fun getArtistAlbum(query: String): AllAlbumsResponse?
+    suspend fun getAlbums(query: String): AllAlbumsResponse?
 }

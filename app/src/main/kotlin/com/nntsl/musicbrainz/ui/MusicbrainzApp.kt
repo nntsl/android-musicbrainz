@@ -52,7 +52,7 @@ fun MusicbrainzApp(
             val navController = rememberNavController()
 
             MusicbrainzNavHost(
-                navController = navController,
+                navController = appState.navController,
                 isExpandedScreen = !appState.isCompactScreen
             )
         }

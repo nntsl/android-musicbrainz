@@ -16,9 +16,11 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
-//    implementation(project(":core:data"))
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.kotlinx.serialization.json)
+
+    testImplementation(project(":core:testing"))
+    testImplementation(kotlin("test"))
 }

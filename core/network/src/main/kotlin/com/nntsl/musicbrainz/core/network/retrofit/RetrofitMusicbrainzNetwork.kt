@@ -7,7 +7,6 @@ import com.nntsl.musicbrainz.core.network.model.AllAlbumsResponse
 import com.nntsl.musicbrainz.core.network.model.AllArtistsResponse
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
-import okhttp3.Call
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -25,7 +24,7 @@ private interface RetrofitMusicbrainzNetworkApi {
     ): AllArtistsResponse?
 
     @GET("release")
-    suspend fun getArtistAlbums(
+    suspend fun getAlbums(
         @Query("query") query: String,
         @Query("fmt") format: String = "json"
     ): AllAlbumsResponse?
@@ -51,7 +50,7 @@ class RetrofitMusicbrainzNetwork @Inject constructor(
         return networkApi.getArtists(query)
     }
 
-    override suspend fun getArtistAlbum(query: String): AllAlbumsResponse? {
-        return networkApi.getArtistAlbums(query)
+    override suspend fun getAlbums(query: String): AllAlbumsResponse? {
+        return networkApi.getAlbums(query)
     }
 }
