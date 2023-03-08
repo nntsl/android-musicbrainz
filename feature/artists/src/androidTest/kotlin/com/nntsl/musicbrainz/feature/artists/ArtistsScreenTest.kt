@@ -12,16 +12,10 @@ class ArtistsScreenTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<ComponentActivity>()
 
-
-    private fun getString(id: Int) = composeTestRule.activity.resources.getString(id)
-
-    private fun getString(id: Int, vararg format: Any) = composeTestRule.activity.resources.getString(id, format)
-
-
     @Test
-    fun loadingWheelIndicator_whenScreenIsLoading_showLoading() {
+    fun loadingWheelIndicator_whenScreenIsLoading_showSuccessWithoutData() {
         composeTestRule.setContent {
-            ArtistsScreen(ArtistsUiState.Loading)
+            ArtistsScreen(ArtistsUiState.Success(isArtistsLoading = true, isAlbumsLoading = false))
         }
 
         composeTestRule.onNodeWithTag("artists:loadingWheel").assertExists()
@@ -30,16 +24,18 @@ class ArtistsScreenTest {
     @Test
     fun artists_whenDataIsEmpty_thenShowEmptyScreen() {
         composeTestRule.setContent {
-            ArtistsScreen(ArtistsUiState.NoData)
+            ArtistsScreen(ArtistsUiState.NoData(isArtistsLoading = false, isAlbumsLoading = false))
         }
     }
 
     @Test
-    fun exchangeRates_whenLoaded_thenIsShown() {
+    fun artists_whenArtistsAreLoaded_thenShowArtists() {
         composeTestRule.setContent {
             ArtistsScreen(
                 uiState = ArtistsUiState.Success(
-                    artists = previewArtists
+                    artists = previewArtists,
+                    isArtistsLoading = false,
+                    isAlbumsLoading = false
                 )
             )
         }
@@ -47,18 +43,16 @@ class ArtistsScreenTest {
         composeTestRule.onNodeWithTag("artists:${previewArtists[0].id}")
             .assertExists().assertHasClickAction()
         composeTestRule.onNodeWithText(previewArtists[0].name).assertExists()
-        composeTestRule.onNodeWithText(previewArtists[0].score).assertExists()
-        composeTestRule.onNodeWithText(getString(previewArtists[0].type.stringRes)).assertExists()
-        composeTestRule.onNodeWithText(previewArtists[0].country).assertExists()
+        previewArtists[0].score?.let { composeTestRule.onNodeWithText(it).assertExists() }
+        previewArtists[0].country?.let { composeTestRule.onNodeWithText(it).assertExists() }
 
         composeTestRule.onNode(hasScrollToNodeAction())
             .performScrollToNode(hasText(previewArtists[1].name))
         composeTestRule.onNodeWithTag("artists:${previewArtists[1].id}")
             .assertExists().assertHasClickAction()
         composeTestRule.onNodeWithText(previewArtists[1].name).assertExists()
-        composeTestRule.onNodeWithText(previewArtists[1].score).assertExists()
-        composeTestRule.onNodeWithText(getString(previewArtists[1].type.stringRes)).assertExists()
-        composeTestRule.onNodeWithText(previewArtists[1].country).assertExists()
+        previewArtists[1].score?.let { composeTestRule.onNodeWithText(it).assertExists() }
+        previewArtists[1].country?.let { composeTestRule.onNodeWithText(it).assertExists() }
     }
 
     @Composable

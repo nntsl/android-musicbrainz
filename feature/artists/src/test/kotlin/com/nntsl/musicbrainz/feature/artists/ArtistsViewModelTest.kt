@@ -55,24 +55,6 @@ internal class ArtistsViewModelTest {
     }
 
     @Test
-    fun uiState_whenArtistsLoaded_thenShowSuccess() = runTest {
-        val collectJob1 = launch(UnconfinedTestDispatcher()) { viewModel.artistsUiState.collect() }
-
-        artistsRepository.sendArtists(testInputArtists)
-
-        assertEquals(
-            ArtistsUiState.Success(
-                isArtistsLoading = false,
-                isAlbumsLoading = false,
-                artists = testInputArtistsItems
-            ),
-            viewModel.artistsUiState.value
-        )
-
-        collectJob1.cancel()
-    }
-
-    @Test
     fun uiState_whenSearchArtists_thenShowUpdatedArtists() = runTest {
         val collectJob1 = launch(UnconfinedTestDispatcher()) { viewModel.artistsUiState.collect() }
 
@@ -85,6 +67,27 @@ internal class ArtistsViewModelTest {
                 isArtistsLoading = false,
                 isAlbumsLoading = false,
                 artists = testInputArtistsItems.filter { it.name == query }
+            ),
+            viewModel.artistsUiState.value
+        )
+
+        collectJob1.cancel()
+    }
+
+    @Test
+    fun uiState_whenSelectArtist_thenShowArtistAlbums() = runTest {
+        val collectJob1 = launch(UnconfinedTestDispatcher()) { viewModel.artistsUiState.collect() }
+
+        viewModel.interactedWithArtists(testInputArtistsItems.first())
+        albumsRepository.sendAlbums(testInputAlbums)
+
+        assertEquals(
+            ArtistsUiState.Success(
+                isArtistsLoading = false,
+                isAlbumsLoading = false,
+                isAlbumsOpened = true,
+                albums = testInputAlbumsItems,
+                selectedArtist = testInputArtistsItems.first()
             ),
             viewModel.artistsUiState.value
         )

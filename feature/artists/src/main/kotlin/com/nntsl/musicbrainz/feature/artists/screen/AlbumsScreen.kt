@@ -52,7 +52,7 @@ fun AlbumsScreen(
         item {
             Box() {
                 AnimatedVisibility(
-                    visible = uiState.isArtistsLoading,
+                    visible = uiState.isAlbumsLoading,
                     enter = slideInVertically(
                         initialOffsetY = { fullHeight -> -fullHeight },
                     ) + fadeIn(),
@@ -69,17 +69,13 @@ fun AlbumsScreen(
                 }
                 if (uiState is ArtistsUiState.Success) {
                     uiState.selectedArtist?.let {
-                        ArtistDetails(
-                            artist = it
-                        )
-                        with(this@LazyColumn) {
-                            artistAlbums(
-                                albums = uiState.albums
-                            )
-                        }
+                        ArtistDetails(artist = it)
                     }
                 }
             }
+        }
+        if (uiState is ArtistsUiState.Success) {
+            artistAlbums(albums = uiState.albums)
         }
         item {
             Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.safeDrawing))
@@ -138,12 +134,12 @@ private fun ArtistDetails(
             .fillMaxSize()
             .padding(start = 16.dp, end = 16.dp)
     ) {
-        ItemWithValue(type = string.type, value = stringResource(artist.type.stringRes))
-        ItemWithValue(type = string.score, value = artist.score)
-        ItemWithValue(type = string.country, value = artist.country)
-        ItemWithValue(type = string.begin_date, value = artist.beginDate)
+        ItemWithValue(type = string.type, value = stringResource(artist.type.stringRes), artist.id)
+        ItemWithValue(type = string.score, value = artist.score, artist.id)
+        ItemWithValue(type = string.country, value = artist.country, artist.id)
+        ItemWithValue(type = string.begin_date, value = artist.beginDate, artist.id)
         artist.endDate?.let {
-            ItemWithValue(type = string.end_date, value = it)
+            ItemWithValue(type = string.end_date, value = it, artist.id)
         }
 
         if (artist.tags.isNotEmpty()) {
@@ -174,7 +170,7 @@ private fun ArtistDetails(
 
 private fun LazyListScope.artistAlbums(
     modifier: Modifier = Modifier,
-    albums: List<AlbumItem>,
+    albums: List<AlbumItem>
 ) {
     if (albums.isNotEmpty()) {
         item {
@@ -185,7 +181,7 @@ private fun LazyListScope.artistAlbums(
             ) {
                 Divider()
                 Text(
-                    stringResource(string.albums),
+                    text = stringResource(string.albums),
                     fontWeight = FontWeight.W600,
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(top = 12.dp, bottom = 12.dp)
@@ -214,13 +210,13 @@ private fun LazyListScope.artistAlbums(
                         fontWeight = FontWeight.W500,
                         style = MaterialTheme.typography.bodyLarge
                     )
-                    ItemWithValue(type = string.status, value = album.status)
-                    ItemWithValue(type = string.tracks, value = album.tracks)
-                    ItemWithValue(type = string.date, value = album.date)
-                    ItemWithValue(type = string.country, value = album.country)
-                    ItemWithValue(type = string.score, value = album.score)
-                    ItemWithValue(type = string.packaging, value = album.packaging)
-                    ItemWithValue(type = string.barcode, value = album.barcode)
+                    ItemWithValue(type = string.status, value = album.status, album.id)
+                    ItemWithValue(type = string.tracks, value = album.tracks, album.id)
+                    ItemWithValue(type = string.date, value = album.date, album.id)
+                    ItemWithValue(type = string.country, value = album.country, album.id)
+                    ItemWithValue(type = string.score, value = album.score, album.id)
+                    ItemWithValue(type = string.packaging, value = album.packaging, album.id)
+                    ItemWithValue(type = string.barcode, value = album.barcode, album.id)
                 }
             }
         }
@@ -228,20 +224,23 @@ private fun LazyListScope.artistAlbums(
 }
 
 @Composable
-private fun ItemWithValue(type: Int, value: String?) {
+private fun ItemWithValue(type: Int, value: String?, id: String) {
     FlowRow(
         crossAxisSpacing = 4.dp,
         mainAxisSpacing = 8.dp,
-        modifier = Modifier.padding(top = 8.dp)
+        modifier = Modifier
+            .padding(top = 8.dp)
     ) {
         Text(
             text = stringResource(type),
             fontWeight = FontWeight.W500,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.testTag("albums:${id}:${stringResource(type)}")
         )
         Text(
             text = value ?: stringResource(string.not_applicable),
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.testTag("albums:${id}:${stringResource(type)}:${value}")
         )
     }
 }

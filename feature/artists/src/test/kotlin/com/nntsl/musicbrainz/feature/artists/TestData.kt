@@ -1,6 +1,8 @@
 package com.nntsl.musicbrainz.feature.artists
 
+import com.nntsl.musicbrainz.core.domain.model.Album
 import com.nntsl.musicbrainz.core.domain.model.Artist
+import com.nntsl.musicbrainz.feature.artists.model.AlbumItem
 import com.nntsl.musicbrainz.feature.artists.model.ArtistItem
 import com.nntsl.musicbrainz.feature.artists.model.ArtistType
 
@@ -49,6 +51,45 @@ val testInputArtists = listOf(
     )
 )
 
+val testInputAlbums = listOf(
+    Album(
+        id = "1",
+        title = "album 1",
+        country = "country 1",
+        disambiguation = "disambiguation 1",
+        score = 100,
+        status = "status 1",
+        barcode = "barcode 2",
+        date = "date 2",
+        packaging = "packaging 2",
+        trackCount = 10
+    ),
+    Album(
+        id = "2",
+        title = "album 2",
+        country = "country 2",
+        disambiguation = "disambiguation 2",
+        score = 90,
+        status = "status 2",
+        barcode = "barcode 1",
+        date = "date 1",
+        packaging = "packaging 1",
+        trackCount = 20
+    ),
+    Album(
+        id = "3",
+        title = "album 3",
+        country = "country 3",
+        disambiguation = "disambiguation 3",
+        score = 80,
+        status = "status 3",
+        barcode = "barcode 3",
+        date = "date 3",
+        packaging = "packaging 3",
+        trackCount = 30
+    )
+)
+
 val testInputArtistsItems = testInputArtists.map { artist ->
     with(artist) {
         ArtistItem(
@@ -65,6 +106,23 @@ val testInputArtistsItems = testInputArtists.map { artist ->
             disambiguation = disambiguation,
             beginDate = beginDate,
             endDate = endDate
+        )
+    }
+}
+
+val testInputAlbumsItems = testInputAlbums.map { album ->
+    with(album) {
+        AlbumItem(
+            id = id,
+            title = title ?: "",
+            score = score?.toString(),
+            country = country,
+            disambiguation = disambiguation,
+            packaging = packaging,
+            barcode = barcode,
+            tracks = trackCount?.toString(),
+            date = date,
+            status = status
         )
     }
 }
