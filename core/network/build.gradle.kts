@@ -1,18 +1,14 @@
 plugins {
-    id("com.android.library")
+    id("musicbrainz.android.library")
     id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
+    id("musicbrainz.android.hilt")
     id("kotlinx-serialization")
-    kotlin("kapt")
 }
 
 android {
     namespace = "com.nntsl.musicbrainz.core.network"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
-
         buildConfigField("String","VERSION_CODE","\"${properties["VERSION_CODE"] as String}\"")
         buildConfigField("String","APP_NAME","\"${properties["APP_NAME"] as String}\"")
         buildConfigField("String","BACKEND_URL","\"${properties["BACKEND_URL"] as String}\"")
@@ -28,9 +24,6 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
-
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
 
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.serialization.json)

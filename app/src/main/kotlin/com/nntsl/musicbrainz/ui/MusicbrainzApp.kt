@@ -13,7 +13,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.compose.rememberNavController
 import com.nntsl.musicbrainz.core.data.util.NetworkMonitor
 import com.nntsl.musicbrainz.navigation.MusicbrainzNavHost
 import com.nntsl.musicbrainz.R.string
@@ -49,8 +48,6 @@ fun MusicbrainzApp(
                 .fillMaxSize()
                 .padding(padding)
         ) {
-            val navController = rememberNavController()
-
             MusicbrainzNavHost(
                 navController = appState.navController,
                 isExpandedScreen = !appState.isCompactScreen

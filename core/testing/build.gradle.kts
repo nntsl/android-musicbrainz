@@ -1,17 +1,12 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
-    kotlin("kapt")
+    id("musicbrainz.android.library")
+    id("musicbrainz.android.hilt")
 }
 
 android {
     namespace = "com.nntsl.musicbrainz.core.testing"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 }
@@ -20,9 +15,6 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:data"))
     implementation(project(":core:domain"))
-
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
 
     api(libs.junit4)
     api(libs.androidx.test.core)

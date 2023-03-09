@@ -5,7 +5,6 @@ import com.nntsl.musicbrainz.core.domain.usecase.GetArtistsUseCase
 import com.nntsl.musicbrainz.core.testing.repository.TestAlbumsRepository
 import com.nntsl.musicbrainz.core.testing.repository.TestArtistsRepository
 import com.nntsl.musicbrainz.core.testing.util.MainDispatcherRule
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -15,7 +14,6 @@ import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 
-@OptIn(ExperimentalCoroutinesApi::class)
 internal class ArtistsViewModelTest {
 
     @get:Rule

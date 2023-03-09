@@ -1,23 +1,10 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    id("musicbrainz.android.library")
+    id("musicbrainz.android.library.compose")
 }
 
 android {
     namespace = "com.nntsl.musicbrainz.core.designsystem"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
-
-    defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
-    }
-
-    buildFeatures {
-        compose = true
-    }
 }
 
 dependencies {

@@ -16,7 +16,6 @@ import androidx.navigation.createGraph
 import androidx.navigation.testing.TestNavHostController
 import com.nntsl.musicbrainz.core.testing.util.TestNetworkMonitor
 import com.nntsl.musicbrainz.ui.MusicbrainzAppState
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -27,7 +26,6 @@ import kotlin.test.assertEquals
 
 @OptIn(
     ExperimentalMaterial3WindowSizeClassApi::class,
-    ExperimentalCoroutinesApi::class
 )
 class MusicbrainzAppStateTest {
 

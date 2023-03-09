@@ -2,14 +2,12 @@ package com.nntsl.musicbrainz.core.data.repository
 
 import com.nntsl.musicbrainz.core.data.mapper.AlbumsMapper.toExternalModel
 import com.nntsl.musicbrainz.core.data.testdoubles.TestMusicbrainzNetworkDataSource
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class ArtistAlbumsRepositoryImplTest {
 
     private lateinit var subject: ArtistAlbumsRepositoryImpl

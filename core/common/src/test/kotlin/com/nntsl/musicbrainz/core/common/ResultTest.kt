@@ -3,13 +3,11 @@ package com.nntsl.musicbrainz.core.common
 import app.cash.turbine.test
 import com.nntsl.musicbrainz.core.common.decoder.result.Result
 import com.nntsl.musicbrainz.core.common.decoder.result.asResult
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runTest
 import kotlin.test.assertEquals
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class ResultTest {
 
     @Test

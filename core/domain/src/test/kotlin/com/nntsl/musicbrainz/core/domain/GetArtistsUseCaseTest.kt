@@ -4,14 +4,12 @@ import com.nntsl.musicbrainz.core.domain.model.Artist
 import com.nntsl.musicbrainz.core.domain.usecase.GetArtistsUseCase
 import com.nntsl.musicbrainz.core.testing.repository.TestArtistsRepository
 import com.nntsl.musicbrainz.core.testing.util.MainDispatcherRule
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class GetArtistsUseCaseTest {
 
     @get:Rule

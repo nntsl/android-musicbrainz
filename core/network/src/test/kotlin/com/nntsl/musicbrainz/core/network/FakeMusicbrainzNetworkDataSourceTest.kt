@@ -3,7 +3,6 @@ package com.nntsl.musicbrainz.core.network
 import JvmUnitTestFakeAssetManager
 import com.nntsl.musicbrainz.core.network.fake.FakeMusicbrainzNetworkDataSource
 import com.nntsl.musicbrainz.core.network.model.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
@@ -11,7 +10,6 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class FakeMusicbrainzNetworkDataSourceTest {
 
     private lateinit var subject: FakeMusicbrainzNetworkDataSource

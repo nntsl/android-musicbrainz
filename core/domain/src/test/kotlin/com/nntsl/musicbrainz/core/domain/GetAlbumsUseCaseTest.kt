@@ -4,14 +4,12 @@ import com.nntsl.musicbrainz.core.domain.model.Album
 import com.nntsl.musicbrainz.core.domain.usecase.GetAlbumsUseCase
 import com.nntsl.musicbrainz.core.testing.repository.TestAlbumsRepository
 import com.nntsl.musicbrainz.core.testing.util.MainDispatcherRule
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertEquals
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class GetAlbumsUseCaseTest {
 
     @get:Rule

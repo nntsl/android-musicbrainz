@@ -1,18 +1,14 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
-    kotlin("kapt")
+    id("musicbrainz.android.application")
+    id("musicbrainz.android.hilt")
+    id("musicbrainz.android.application.compose")
 }
 
 android {
     namespace = "com.nntsl.musicbrainz"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.nntsl.musicbrainz"
-        minSdk = libs.versions.android.minSdk.get().toInt()
-        targetSdk = libs.versions.android.tagetSdk.get().toInt()
         versionCode = (properties["VERSION_CODE"] as String).toInt()
         versionName = properties["VERSION_NAME"] as String
 
@@ -23,30 +19,24 @@ android {
     }
 
     buildTypes {
-        debug {
+        val debug by getting {
             isDebuggable = true
             applicationIdSuffix = ".debug"
         }
-        release {
-            isMinifyEnabled = false
+        val release by getting {
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
+        val debugStaging by creating {
+            initWith(debug)
+            matchingFallbacks.add("debug")
+            proguardFiles("benchmark-rules.pro")
+            isMinifyEnabled = true
+            applicationIdSuffix = ".debugStaging"
+        }
     }
     packagingOptions {
         resources {
@@ -69,8 +59,6 @@ dependencies {
     androidTestImplementation(project(":core:testing"))
     androidTestImplementation(project(":core:data-test"))
 
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.ui)
